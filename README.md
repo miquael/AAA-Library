@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Alexandria AI Agent Library (AAA Library)
 
 A comprehensive repository for AI agent research, development, and resources.
@@ -100,7 +99,5 @@ The Alexandria AI Agent Library serves as a central hub for organizing and track
 
 Guidelines for contributing to the library will be added here.
 
-=======
-# Alexandria AI Agent - Library
-a library of key information and documentation in creating and investing in AI and AI Agents
->>>>>>> 120160207b10996f1ed9dbea1067ba739aff9c28
+
+#
