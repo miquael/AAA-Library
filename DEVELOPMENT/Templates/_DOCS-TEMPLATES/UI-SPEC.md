@@ -1,5 +1,5 @@
 # [ PROJECT NAME ] - User Interface & Experience Specifications
-*Version: 1.0.0*
+*Version: 1.0.1*
 
 ## Design System
 
@@ -29,6 +29,76 @@
     --info: #00B0FF;
 }
 ```
+
+### Color Samples
+
+#### Primary Colors
+<div style="display: flex; gap: 1rem; margin: 1rem 0;">
+  <div>
+    <div style="width: 100px; height: 100px; background: #121212; border-radius: 8px; border: 1px solid #ccc;"></div>
+    <code>Primary Dark: #121212</code>
+  </div>
+  <div>
+    <div style="width: 100px; height: 100px; background: #1E1E1E; border-radius: 8px; border: 1px solid #ccc;"></div>
+    <code>Primary Background: #1E1E1E</code>
+  </div>
+  <div>
+    <div style="width: 100px; height: 100px; background: #2D2D2D; border-radius: 8px; border: 1px solid #ccc;"></div>
+    <code>Primary Light: #2D2D2D</code>
+  </div>
+</div>
+
+#### Accent Colors
+<div style="display: flex; gap: 1rem; margin: 1rem 0;">
+  <div>
+    <div style="width: 100px; height: 100px; background: #00B4D8; border-radius: 8px; border: 1px solid #ccc;"></div>
+    <code>Accent Blue: #00B4D8</code>
+  </div>
+  <div>
+    <div style="width: 100px; height: 100px; background: #00F5D4; border-radius: 8px; border: 1px solid #ccc;"></div>
+    <code>Accent Green: #00F5D4</code>
+  </div>
+  <div>
+    <div style="width: 100px; height: 100px; background: #FFB800; border-radius: 8px; border: 1px solid #ccc;"></div>
+    <code>Accent Amber: #FFB800</code>
+  </div>
+</div>
+
+#### Text Colors
+<div style="display: flex; gap: 1rem; margin: 1rem 0;">
+  <div>
+    <div style="width: 100px; height: 100px; background: #FFFFFF; border-radius: 8px; border: 1px solid #ccc;"></div>
+    <code>Text Primary: #FFFFFF</code>
+  </div>
+  <div>
+    <div style="width: 100px; height: 100px; background: #B3B3B3; border-radius: 8px; border: 1px solid #ccc;"></div>
+    <code>Text Secondary: #B3B3B3</code>
+  </div>
+  <div>
+    <div style="width: 100px; height: 100px; background: #666666; border-radius: 8px; border: 1px solid #ccc;"></div>
+    <code>Text Disabled: #666666</code>
+  </div>
+</div>
+
+#### Status Colors
+<div style="display: flex; gap: 1rem; margin: 1rem 0;">
+  <div>
+    <div style="width: 100px; height: 100px; background: #00C853; border-radius: 8px; border: 1px solid #ccc;"></div>
+    <code>Success: #00C853</code>
+  </div>
+  <div>
+    <div style="width: 100px; height: 100px; background: #FFD600; border-radius: 8px; border: 1px solid #ccc;"></div>
+    <code>Warning: #FFD600</code>
+  </div>
+  <div>
+    <div style="width: 100px; height: 100px; background: #FF1744; border-radius: 8px; border: 1px solid #ccc;"></div>
+    <code>Error: #FF1744</code>
+  </div>
+  <div>
+    <div style="width: 100px; height: 100px; background: #00B0FF; border-radius: 8px; border: 1px solid #ccc;"></div>
+    <code>Info: #00B0FF</code>
+  </div>
+</div>
 
 ### Typography
 

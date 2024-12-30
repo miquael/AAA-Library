@@ -16,12 +16,12 @@ High-level vision and goals for the project.
 
 ```mermaid
 graph TD
-    subgraph Client Layer
+    subgraph ClientLayer[Client Layer]
         Web[Web Client]
         Mobile[Mobile Client]
     end
 
-    subgraph API Gateway
+    subgraph APIGateway[API Gateway]
         Gateway[API Gateway]
         Auth[Authentication]
         Cache[Cache]
@@ -33,15 +33,23 @@ graph TD
         Service3[Service 3]
     end
 
-    subgraph Data Layer
+    subgraph DataLayer[Data Layer]
         DB[(Database)]
         Queue[Message Queue]
         Storage[File Storage]
     end
 
-    Client Layer --> API Gateway
-    API Gateway --> Microservices
-    Microservices --> Data Layer
+    Web --> Gateway
+    Mobile --> Gateway
+    Gateway --> Service1
+    Gateway --> Service2
+    Gateway --> Service3
+    Service1 --> DB
+    Service2 --> DB
+    Service3 --> DB
+    Service1 --> Queue
+    Service2 --> Queue
+    Service3 --> Storage
 ```
 
 ## Technology Stack

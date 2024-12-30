@@ -1,470 +1,76 @@
 # [ PROJECT NAME ] - UI Implementation Guide
-*Version: 1.0.0*
-
-This document provides detailed specifications for recreating the Cipher Analyzer Tool (CAT) user interface, preserving the look and feel of the original implementation while using the updated tech stack.
-
-## Core UI Components
-
-### 1. CipherGrid Component
-```typescript
-// Dynamic symbol management
-interface SymbolDefinition {
-  value: string;
-  category: string;
-  metadata?: {
-    type?: string;
-    confidence?: number;
-    variants?: string[];
-  }
-}
-
-// Initial symbol sets (extensible)
-const DEFAULT_SYMBOL_SETS = {
-  alphanumeric: {
-    uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
-    lowercase: 'abcdefghijklmnopqrstuvwxyz'.split(''),
-    numbers: '0123456789'.split(''),
-    special: '.,;:!?-_+=()[]{}@#$%^&*'.split('')
-  },
-  geometric: {
-    circles: ['●', '○', '⊖', '⊘', '⊕'],
-    squares: ['■', '□', '⊟', '⊠', '⊞'],
-    triangles: ['▲', '△', '\\']
-  },
-  custom: new Map<string, SymbolDefinition>()  // For dynamically detected symbols
-};
-
-interface CipherGridProps {
-  data: Array<{
-    symbol: SymbolDefinition;
-    position: { row: number; col: number };
-    confidence: number;
-  }>;
-  dimensions: { rows: number; cols: number };
-  highlights: Array<{
-    positions: Array<{ row: number; col: number }>;
-    type: 'pattern' | 'selection' | 'match';
-    color?: string;
-  }>;
-  onCellInteraction: (
-    type: 'click' | 'hover' | 'contextmenu',
-    position: { row: number; col: number },
-    symbol: SymbolDefinition
-  ) => void;
-  renderOptions?: {
-    cellSize?: number;
-    fontSize?: number;
-    showConfidence?: boolean;
-    showGrid?: boolean;
-  };
-}
-
-// Symbol registry for dynamic management
-class SymbolRegistry {
-  private symbols: Map<string, SymbolDefinition> = new Map();
-  
-  registerSymbol(symbol: SymbolDefinition) {
-    this.symbols.set(symbol.value, symbol);
-  }
-  
-  registerBatch(symbols: SymbolDefinition[]) {
-    symbols.forEach(s => this.registerSymbol(s));
-  }
-  
-  getSymbol(value: string): SymbolDefinition | undefined {
-    return this.symbols.get(value);
-  }
-  
-  getByCategory(category: string): SymbolDefinition[] {
-    return Array.from(this.symbols.values())
-      .filter(s => s.category === category);
-  }
-}
-```
-
-Key Features:
-- Dynamic symbol registration and management
-- Flexible grid layout with configurable dimensions
-- Multiple highlight types for different analysis states
-- Confidence level visualization
-- Responsive to different symbol sizes and types
-- Support for custom symbol sets
-
-### 2. Analysis Panel
-```typescript
-interface AnalysisResult {
-  type: 'frequency' | 'pattern' | 'sequence' | 'custom';
-  data: {
-    symbols?: Map<string, {
-      count: number;
-      positions: Array<{ row: number; col: number }>;
-      confidence: number;
-    }>;
-    patterns?: Array<{
-      sequence: string[];
-      occurrences: number;
-      positions: Array<{ row: number; col: number }[]>;
-      confidence: number;
-    }>;
-    custom?: any;
-  };
-  metadata: {
-    timestamp: string;
-    duration: number;
-    algorithm: string;
-    confidence: number;
-  };
-}
-
-interface AnalysisPanelProps {
-  results: AnalysisResult[];
-  isLoading: boolean;
-  onResultSelect: (result: AnalysisResult) => void;
-  filters: {
-    minConfidence: number;
-    categories: string[];
-    timeRange: [Date, Date];
-  };
-}
-```
-
-### 3. Real-Time Updates
-```typescript
-interface WSMessage {
-  type: 'update' | 'error' | 'complete';
-  priority: 'critical' | 'standard' | 'low';
-  timestamp: string;
-  payload: {
-    message: string;
-    data?: {
-      symbols?: SymbolDefinition[];
-      analysis?: AnalysisResult;
-      progress?: number;
-    };
-    status?: ProcessStatus;
-  };
-}
-
-class AnalysisStreamManager {
-  private ws: WebSocket;
-  private messageQueue: WSMessage[] = [];
-  private symbolRegistry: SymbolRegistry;
-  
-  constructor(url: string, symbolRegistry: SymbolRegistry) {
-    this.ws = new WebSocket(url);
-    this.symbolRegistry = symbolRegistry;
-    this.initializeWebSocket();
-  }
-  
-  private handleSymbolUpdate(symbols: SymbolDefinition[]) {
-    this.symbolRegistry.registerBatch(symbols);
-    // Trigger UI updates
-  }
-  
-  private handleAnalysisUpdate(analysis: AnalysisResult) {
-    // Process and display analysis results
-  }
-}
-```
-
-## Symbol Management Integration
-
-The UI components integrate with the Symbol Management System (SMS) as defined in `SYMBOL-MANAGEMENT.md`. Key integration points:
-
-### CipherGrid Integration
-```typescript
-interface CipherGridProps {
-  symbols: ExtractedSymbol[];
-  layout: {
-    rows: number;
-    cols: number;
-    cellSize: number;
-  };
-  renderOptions: RenderOptions;
-  onSymbolInteraction: (
-    type: 'click' | 'hover' | 'contextmenu',
-    symbol: ExtractedSymbol,
-    position: { row: number; col: number }
-  ) => void;
-}
-
-const CipherGrid: React.FC<CipherGridProps> = ({
-  symbols,
-  layout,
-  renderOptions,
-  onSymbolInteraction
-}) => {
-  const symbolRegistry = useSymbolRegistry();
-  const renderer = useSymbolRenderer();
-
-  return (
-    <div className="cipher-grid" 
-         style={generateGridStyle(layout)}>
-      {symbols.map(symbol => (
-        <div key={symbol.id} 
-             className="symbol-cell"
-             onClick={() => onSymbolInteraction('click', symbol)}>
-          {renderer.render(symbol, renderOptions)}
-        </div>
-      ))}
-    </div>
-  );
-};
-```
-
-### Symbol Palette Integration
-```typescript
-interface SymbolPaletteProps {
-  categories: string[];
-  onSymbolSelect: (symbol: ExtractedSymbol) => void;
-  renderOptions: RenderOptions;
-}
-
-const SymbolPalette: React.FC<SymbolPaletteProps> = ({
-  categories,
-  onSymbolSelect,
-  renderOptions
-}) => {
-  const symbolRegistry = useSymbolRegistry();
-  const renderer = useSymbolRenderer();
-
-  return (
-    <div className="symbol-palette">
-      {categories.map(category => (
-        <div key={category} className="category">
-          <h3>{category}</h3>
-          <div className="symbols">
-            {symbolRegistry.getByCategory(category).map(symbol => (
-              <button
-                key={symbol.id}
-                onClick={() => onSymbolSelect(symbol)}
-                className="symbol-button"
-              >
-                {renderer.render(symbol, {
-                  ...renderOptions,
-                  size: 'small'
-                })}
-              </button>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
-```
-
-### Analysis Panel Integration
-```typescript
-interface AnalysisPanelProps {
-  results: AnalysisResult[];
-  symbolRegistry: SymbolRegistry;
-  renderOptions: RenderOptions;
-}
-
-const AnalysisPanel: React.FC<AnalysisPanelProps> = ({
-  results,
-  symbolRegistry,
-  renderOptions
-}) => {
-  const renderer = useSymbolRenderer();
-
-  return (
-    <div className="analysis-panel">
-      {results.map(result => (
-        <div key={result.id} className="result-item">
-          <h4>{result.type}</h4>
-          <div className="symbols">
-            {result.symbols.map(symbol => (
-              <div key={symbol.id} className="symbol-result">
-                {renderer.render(symbol, renderOptions)}
-                <span className="frequency">
-                  {symbol.frequency}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
-```
-
-## Styling Guidelines
-
-### Grid Styling
-```css
-.cipher-grid {
-  display: grid;
-  grid-template-columns: repeat(var(--grid-cols), var(--cell-size));
-  grid-template-rows: repeat(var(--grid-rows), var(--cell-size));
-  gap: 1px;
-  background: var(--grid-bg);
-  padding: 1rem;
-  
-  @media (prefers-reduced-motion: no-preference) {
-    .cell-highlight {
-      transition: all 0.2s ease-in-out;
-    }
-  }
-}
-
-.symbol-cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--mono-font);
-  position: relative;
-  
-  &[data-confidence]::after {
-    content: attr(data-confidence);
-    position: absolute;
-    font-size: 0.6em;
-    opacity: 0.7;
-  }
-}
-```
-
-## WebSocket Integration
-
-```typescript
-// WebSocket message types
-type WSMessage = {
-  type: 'grid_update' | 'analysis_result' | 'error';
-  payload: any;
-};
-
-// Connection management
-const initializeWebSocket = () => {
-  const ws = new WebSocket('ws://localhost:5001');
-  
-  ws.onopen = () => {
-    // Connection established
-    setInterval(() => ws.send('ping'), 5000); // Keep-alive
-  };
-  
-  ws.onmessage = (event) => {
-    const message: WSMessage = JSON.parse(event.data);
-    // Handle different message types
-  };
-};
-```
-
-## Layout Structure
-```tsx
-const Layout = () => {
-  return (
-    <div className="flex h-screen bg-background">
-      {/* Main Content */}
-      <main className="flex-1 flex flex-col">
-        <nav className="h-14 border-b">
-          {/* Top Navigation */}
-        </nav>
-        
-        <div className="flex-1 flex">
-          {/* Grid Area */}
-          <div className="flex-1 p-6">
-            <CipherGrid />
-          </div>
-          
-          {/* Analysis Panel */}
-          <AnalysisPanel />
-        </div>
-      </main>
-    </div>
-  );
-};
-```
-
-## Responsive Design
-- Grid scales with viewport
-- Collapsible analysis panel
-- Mobile-friendly symbol palette
-- Minimum sizes for usability
-
-## Animation Guidelines
-- Smooth transitions: 200ms ease
-- Loading animations
-- Highlight transitions
-- Panel collapse/expand
-
-## Accessibility
-- Keyboard navigation
-- ARIA labels
-- Focus management
-- Color contrast compliance
-
----
-
-This guide should be used in conjunction with the UI-SPEC.md for implementing the user interface in CAT 2.0. It preserves the core functionality and aesthetics while allowing for improvements in the implementation.
+*Version: 1.0.1*
 
 ## Component Architecture
 
 ```mermaid
 graph TD
-    subgraph Layout
-        Page[Page Layout]
-        Header[Header]
-        Main[Main Content]
-        Footer[Footer]
-    end
-
-    subgraph Components
+    subgraph Core[Core Components]
+        Base[Base Components]
+        Layout[Layout Components]
         Form[Form Components]
-        Table[Table Components]
-        Modal[Modal Components]
-        Card[Card Components]
+        Data[Data Display]
     end
 
-    subgraph Features
+    subgraph Features[Feature Components]
         Auth[Authentication]
         Nav[Navigation]
         Theme[Theme System]
         State[State Management]
     end
 
-    Layout --> Components
-    Components --> Features
+    subgraph Utils[Utilities]
+        Hooks[Custom Hooks]
+        Context[Context Providers]
+        Types[Type Definitions]
+    end
+
+    Core --> Features
+    Features --> Utils
 ```
 
 ## Component Implementation
 
 ### Base Components
 ```typescript
-// Button Component
+// Generic Button Component
 interface ButtonProps {
   variant: 'primary' | 'secondary' | 'ghost';
   size: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
   onClick?: () => void;
   disabled?: boolean;
+  className?: string;
+  ariaLabel?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({
+const Button = ({
   variant,
   size,
   children,
   onClick,
-  disabled
-}) => {
+  disabled,
+  className,
+  ariaLabel
+}: ButtonProps) => {
+  const baseStyles = 'rounded-md font-medium transition-colors focus:ring-2';
+  const variantStyles = {
+    primary: 'bg-primary-500 text-white hover:bg-primary-600',
+    secondary: 'bg-secondary-500 text-primary-900 hover:bg-secondary-600',
+    ghost: 'hover:bg-primary-100 text-primary-900'
+  };
+  const sizeStyles = {
+    sm: 'px-2 py-1 text-sm',
+    md: 'px-4 py-2',
+    lg: 'px-6 py-3 text-lg'
+  };
+
   return (
     <button
-      className={cn(
-        'rounded-md font-medium transition-colors',
-        {
-          'bg-primary text-white': variant === 'primary',
-          'bg-secondary text-primary': variant === 'secondary',
-          'hover:bg-primary/10': variant === 'ghost'
-        },
-        {
-          'px-2 py-1 text-sm': size === 'sm',
-          'px-4 py-2': size === 'md',
-          'px-6 py-3 text-lg': size === 'lg'
-        }
-      )}
+      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
       onClick={onClick}
       disabled={disabled}
+      aria-label={ariaLabel}
     >
       {children}
     </button>
@@ -474,26 +80,29 @@ const Button: React.FC<ButtonProps> = ({
 
 ### Layout Components
 ```typescript
-// Page Layout
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+// Generic Page Layout
+interface LayoutProps {
+  header?: React.ReactNode;
+  sidebar?: React.ReactNode;
+  footer?: React.ReactNode;
+  children: React.ReactNode;
+}
+
+const Layout = ({ header, sidebar, footer, children }: LayoutProps) => {
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-      <main className="container mx-auto px-4 py-8">
-        {children}
-      </main>
-      <Footer />
-    </div>
-  );
-};
-
-// Grid Layout
-const Grid: React.FC<{ items: any[] }> = ({ items }) => {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {items.map((item) => (
-        <Card key={item.id} {...item} />
-      ))}
+      {header && <header className="sticky top-0 z-10">{header}</header>}
+      <div className="flex min-h-[calc(100vh-4rem)]">
+        {sidebar && (
+          <aside className="w-64 border-r border-border">
+            {sidebar}
+          </aside>
+        )}
+        <main className="flex-1 px-4 py-8">
+          {children}
+        </main>
+      </div>
+      {footer && <footer className="border-t border-border">{footer}</footer>}
     </div>
   );
 };
@@ -501,285 +110,225 @@ const Grid: React.FC<{ items: any[] }> = ({ items }) => {
 
 ## State Management
 
-### Zustand Store
+### Generic Store
 ```typescript
-interface AppState {
-  theme: 'light' | 'dark';
-  setTheme: (theme: 'light' | 'dark') => void;
-  user: User | null;
-  setUser: (user: User | null) => void;
+interface AppState<T> {
+  data: T;
+  loading: boolean;
+  error: Error | null;
+  setData: (data: T) => void;
+  setError: (error: Error | null) => void;
+  setLoading: (loading: boolean) => void;
 }
 
-const useStore = create<AppState>((set) => ({
-  theme: 'dark',
-  setTheme: (theme) => set({ theme }),
-  user: null,
-  setUser: (user) => set({ user })
-}));
+const createStore = <T>(initialData: T) => {
+  return create<AppState<T>>((set) => ({
+    data: initialData,
+    loading: false,
+    error: null,
+    setData: (data) => set({ data }),
+    setError: (error) => set({ error }),
+    setLoading: (loading) => set({ loading })
+  }));
+};
 ```
 
 ### Context Provider
 ```typescript
-interface AppContextType {
-  state: AppState;
-  dispatch: React.Dispatch<AppAction>;
+interface AppContextState<T> {
+  state: T;
+  dispatch: React.Dispatch<AppAction<T>>;
 }
 
-const AppContext = createContext<AppContextType | undefined>(undefined);
+const createAppContext = <T,>() => {
+  const AppContext = createContext<AppContextState<T> | undefined>(undefined);
 
-export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
-  children
-}) => {
-  const [state, dispatch] = useReducer(appReducer, initialState);
+  const AppProvider: React.FC<{
+    initialState: T;
+    children: React.ReactNode;
+  }> = ({ initialState, children }) => {
+    const [state, dispatch] = useReducer(appReducer, initialState);
 
-  return (
-    <AppContext.Provider value={{ state, dispatch }}>
-      {children}
-    </AppContext.Provider>
-  );
+    return (
+      <AppContext.Provider value={{ state, dispatch }}>
+        {children}
+      </AppContext.Provider>
+    );
+  };
+
+  return { AppContext, AppProvider };
 };
 ```
 
 ## Styling System
 
-### Tailwind Configuration
-```javascript
-// tailwind.config.js
-module.exports = {
-  darkMode: 'class',
-  theme: {
-    extend: {
-      colors: {
-        background: '#1a1a1a',
-        primary: {
-          DEFAULT: '#00ff9d',
-          dark: '#00cc7d'
-        },
-        secondary: {
-          DEFAULT: '#ff00ff',
-          dark: '#cc00cc'
-        }
-      },
-      fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        mono: ['Fira Code', 'monospace']
-      }
+### Theme Configuration
+```typescript
+// theme.config.ts
+export const theme = {
+  colors: {
+    primary: {
+      50: '#f0f9ff',
+      100: '#e0f2fe',
+      500: '#0ea5e9',
+      600: '#0284c7',
+      900: '#0c4a6e'
+    },
+    secondary: {
+      50: '#fdf4ff',
+      100: '#fae8ff',
+      500: '#d946ef',
+      600: '#c026d3',
+      900: '#701a75'
+    },
+    background: {
+      light: '#ffffff',
+      dark: '#1a1a1a'
+    },
+    text: {
+      light: '#1a1a1a',
+      dark: '#ffffff'
     }
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography')
-  ]
+  spacing: {
+    xs: '0.25rem',
+    sm: '0.5rem',
+    md: '1rem',
+    lg: '1.5rem',
+    xl: '2rem'
+  },
+  breakpoints: {
+    sm: '640px',
+    md: '768px',
+    lg: '1024px',
+    xl: '1280px'
+  }
 };
-```
-
-### Global Styles
-```css
-/* globals.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  :root {
-    --background: 26 26 26;
-    --primary: 0 255 157;
-    --secondary: 255 0 255;
-  }
-
-  body {
-    @apply bg-background text-white antialiased;
-  }
-}
-
-@layer components {
-  .btn {
-    @apply px-4 py-2 rounded-md font-medium transition-colors;
-  }
-
-  .btn-primary {
-    @apply bg-primary text-background hover:bg-primary/90;
-  }
-}
 ```
 
 ## Form Handling
 
-### Form Component
+### Generic Form
 ```typescript
-interface FormProps {
+interface FormConfig {
+  fields: {
+    name: string;
+    type: string;
+    label: string;
+    validation?: {
+      required?: boolean;
+      pattern?: RegExp;
+      minLength?: number;
+      maxLength?: number;
+    };
+  }[];
   onSubmit: (data: any) => void;
-  defaultValues?: any;
-  children: React.ReactNode;
 }
 
-const Form: React.FC<FormProps> = ({
-  onSubmit,
-  defaultValues,
-  children
-}) => {
-  const methods = useForm({ defaultValues });
+const GenericForm = ({ fields, onSubmit }: FormConfig) => {
+  const form = useForm();
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
-        {children}
-      </form>
-    </FormProvider>
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      {fields.map((field) => (
+        <FormField
+          key={field.name}
+          {...field}
+          register={form.register}
+          error={form.formState.errors[field.name]}
+        />
+      ))}
+      <Button type="submit" variant="primary">Submit</Button>
+    </form>
   );
-};
-```
-
-### Input Components
-```typescript
-interface InputProps {
-  name: string;
-  label: string;
-  type?: string;
-  placeholder?: string;
-  required?: boolean;
-}
-
-const Input: React.FC<InputProps> = ({
-  name,
-  label,
-  type = 'text',
-  placeholder,
-  required
-}) => {
-  const { register, formState: { errors } } = useFormContext();
-
-  return (
-    <div className="space-y-1">
-      <label htmlFor={name} className="text-sm font-medium">
-        {label}
-      </label>
-      <input
-        {...register(name, { required })}
-        type={type}
-        id={name}
-        placeholder={placeholder}
-        className="w-full rounded-md border-gray-300 bg-background"
-      />
-      {errors[name] && (
-        <p className="text-red-500 text-sm">
-          {errors[name].message}
-        </p>
-      )}
-    </div>
-  );
-};
-```
-
-## Navigation
-
-### Router Configuration
-```typescript
-// app/routes.tsx
-const routes = [
-  {
-    path: '/',
-    element: <Home />,
-  },
-  {
-    path: '/dashboard',
-    element: <PrivateRoute><Dashboard /></PrivateRoute>,
-    children: [
-      {
-        path: 'profile',
-        element: <Profile />
-      },
-      {
-        path: 'settings',
-        element: <Settings />
-      }
-    ]
-  }
-];
-```
-
-### Navigation Guards
-```typescript
-const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({
-  children
-}) => {
-  const { user } = useAuth();
-  const location = useLocation();
-
-  if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
-  return <>{children}</>;
 };
 ```
 
 ## Data Fetching
 
-### API Client
+### Generic API Client
 ```typescript
-const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-  headers: {
-    'Content-Type': 'application/json'
+interface APIConfig {
+  baseURL: string;
+  headers?: Record<string, string>;
+  timeout?: number;
+}
+
+class APIClient {
+  private client: AxiosInstance;
+
+  constructor(config: APIConfig) {
+    this.client = axios.create({
+      baseURL: config.baseURL,
+      headers: {
+        'Content-Type': 'application/json',
+        ...config.headers
+      },
+      timeout: config.timeout || 10000
+    });
+
+    this.setupInterceptors();
   }
-});
 
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  private setupInterceptors() {
+    this.client.interceptors.request.use(
+      (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
   }
-  return config;
-});
-```
 
-### Data Hooks
-```typescript
-const useData = <T>(url: string) => {
-  const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  async get<T>(url: string, params?: any): Promise<T> {
+    const response = await this.client.get<T>(url, { params });
+    return response.data;
+  }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await api.get(url);
-        setData(response.data);
-      } catch (err) {
-        setError(err as Error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [url]);
-
-  return { data, loading, error };
-};
+  async post<T>(url: string, data: any): Promise<T> {
+    const response = await this.client.post<T>(url, data);
+    return response.data;
+  }
+}
 ```
 
 ## Error Handling
 
 ### Error Boundary
 ```typescript
+interface ErrorBoundaryProps {
+  fallback: React.ReactNode;
+  children: React.ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error?: Error;
+}
+
 class ErrorBoundary extends React.Component<
-  { children: React.ReactNode },
-  { hasError: boolean }
+  ErrorBoundaryProps,
+  ErrorBoundaryState
 > {
-  constructor(props) {
+  constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError() {
-    return { hasError: true };
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('Error caught by boundary:', error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
-      return <ErrorFallback />;
+      return this.props.fallback;
     }
 
     return this.props.children;
@@ -787,156 +336,137 @@ class ErrorBoundary extends React.Component<
 }
 ```
 
-### Toast Notifications
-```typescript
-const useToast = () => {
-  const [toasts, setToasts] = useState<Toast[]>([]);
-
-  const addToast = (toast: Toast) => {
-    setToasts((prev) => [...prev, { ...toast, id: Date.now() }]);
-  };
-
-  const removeToast = (id: number) => {
-    setToasts((prev) => prev.filter((toast) => toast.id !== id));
-  };
-
-  return { toasts, addToast, removeToast };
-};
-```
-
 ## Performance Optimization
 
-### Code Splitting
+### Generic Virtualized List
 ```typescript
-const DashboardPage = lazy(() => import('./pages/Dashboard'));
-const SettingsPage = lazy(() => import('./pages/Settings'));
+interface VirtualListProps<T> {
+  items: T[];
+  height: number;
+  itemHeight: number;
+  renderItem: (item: T, index: number) => React.ReactNode;
+}
 
-const App = () => {
-  return (
-    <Suspense fallback={<Loading />}>
-      <Routes>
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-      </Routes>
-    </Suspense>
-  );
-};
-```
+function VirtualList<T>({
+  items,
+  height,
+  itemHeight,
+  renderItem
+}: VirtualListProps<T>) {
+  const [scrollTop, setScrollTop] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-### Memoization
-```typescript
-const MemoizedComponent = memo(({ data }) => {
+  const visibleItems = useMemo(() => {
+    const start = Math.floor(scrollTop / itemHeight);
+    const end = Math.min(
+      start + Math.ceil(height / itemHeight),
+      items.length
+    );
+    return items.slice(start, end).map((item, index) => ({
+      item,
+      index: start + index
+    }));
+  }, [items, scrollTop, height, itemHeight]);
+
   return (
-    <div>
-      {data.map((item) => (
-        <Item key={item.id} {...item} />
-      ))}
+    <div
+      ref={containerRef}
+      style={{ height, overflow: 'auto' }}
+      onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
+    >
+      <div style={{ height: items.length * itemHeight }}>
+        {visibleItems.map(({ item, index }) => (
+          <div
+            key={index}
+            style={{
+              position: 'absolute',
+              top: index * itemHeight,
+              height: itemHeight
+            }}
+          >
+            {renderItem(item, index)}
+          </div>
+        ))}
+      </div>
     </div>
   );
-});
-
-const useCallback = (data: any[]) => {
-  return useMemo(() => {
-    return data.map((item) => ({
-      ...item,
-      processed: processItem(item)
-    }));
-  }, [data]);
-};
+}
 ```
 
 ## Accessibility
 
-### ARIA Labels
+### Generic Accessible Components
 ```typescript
-const AccessibleButton: React.FC<ButtonProps> = ({
-  label,
-  onClick,
-  disabled
-}) => {
+// Accessible Modal
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  children: React.ReactNode;
+}
+
+const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
   return (
-    <button
-      aria-label={label}
-      aria-disabled={disabled}
-      onClick={onClick}
-      className="btn"
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      className="fixed inset-0 z-50 flex items-center justify-center"
     >
-      {label}
-    </button>
+      <div
+        className="fixed inset-0 bg-black/50"
+        onClick={onClose}
+      />
+      <div className="relative bg-background p-6 rounded-lg">
+        <h2 id="modal-title" className="text-xl font-bold">
+          {title}
+        </h2>
+        {children}
+      </div>
+    </div>
   );
 };
 ```
 
-### Keyboard Navigation
+## Testing
+
+### Component Testing
 ```typescript
-const KeyboardNav: React.FC = () => {
-  const handleKeyPress = (event: KeyboardEvent) => {
-    switch (event.key) {
-      case 'ArrowUp':
-        // Handle up navigation
-        break;
-      case 'ArrowDown':
-        // Handle down navigation
-        break;
-      case 'Enter':
-        // Handle selection
-        break;
-    }
+// Generic Component Test
+describe('Component', () => {
+  const setup = (props = {}) => {
+    return render(<Component {...props} />);
   };
 
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyPress);
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress);
-    };
-  }, []);
-
-  return <div tabIndex={0}>Keyboard Navigation</div>;
-};
-```
-
-## Testing Components
-
-### Component Tests
-```typescript
-describe('Button', () => {
-  it('renders correctly', () => {
-    const { getByText } = render(
-      <Button variant="primary">Click me</Button>
-    );
-    expect(getByText('Click me')).toBeInTheDocument();
+  it('renders with default props', () => {
+    const { container } = setup();
+    expect(container).toBeInTheDocument();
   });
 
-  it('handles click events', () => {
-    const onClick = jest.fn();
-    const { getByText } = render(
-      <Button variant="primary" onClick={onClick}>
-        Click me
-      </Button>
-    );
-    fireEvent.click(getByText('Click me'));
-    expect(onClick).toHaveBeenCalled();
+  it('handles user interactions', async () => {
+    const onAction = jest.fn();
+    const { getByRole } = setup({ onAction });
+    
+    const button = getByRole('button');
+    await userEvent.click(button);
+    
+    expect(onAction).toHaveBeenCalled();
+  });
+
+  it('matches snapshot', () => {
+    const { container } = setup();
+    expect(container).toMatchSnapshot();
   });
 });
 ```
-
-### Integration Tests
-```typescript
-describe('Form', () => {
-  it('submits form data', async () => {
-    const onSubmit = jest.fn();
-    const { getByLabelText, getByText } = render(
-      <Form onSubmit={onSubmit}>
-        <Input label="Name" name="name" />
-        <Button type="submit">Submit</Button>
-      </Form>
-    );
-
-    await userEvent.type(getByLabelText('Name'), 'John Doe');
-    fireEvent.click(getByText('Submit'));
-
-    expect(onSubmit).toHaveBeenCalledWith({
-      name: 'John Doe'
-    });
-  });
-});

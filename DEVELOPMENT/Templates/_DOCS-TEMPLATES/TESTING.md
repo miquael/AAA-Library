@@ -5,7 +5,7 @@
 
 ```mermaid
 graph TD
-    subgraph Testing Pyramid
+    subgraph TestPyramid[Testing Pyramid]
         E2E[End-to-End Tests]
         Int[Integration Tests]
         Unit[Unit Tests]
@@ -14,14 +14,19 @@ graph TD
         style Unit fill:#bfb,stroke:#333
     end
 
-    subgraph Types
+    subgraph TestTypes[Test Types]
         Auto[Automated Tests]
         Manual[Manual Tests]
         Perf[Performance Tests]
         Sec[Security Tests]
     end
 
-    Testing Pyramid --> Types
+    E2E --> Auto
+    E2E --> Manual
+    Int --> Auto
+    Int --> Perf
+    Unit --> Auto
+    Unit --> Sec
 ```
 
 ## Test Types
