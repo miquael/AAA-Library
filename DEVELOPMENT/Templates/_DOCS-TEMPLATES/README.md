@@ -1,6 +1,34 @@
 # Documentation Templates Guide
 *Version: 1.0.0*
 
+## Quick Start
+
+1. Copy templates to your project:
+```bash
+# From your project root
+cp -r /path/to/_DOCS-TEMPLATES ./_DOCS
+cd _DOCS
+```
+
+2. Remove this README and initialize your docs:
+```bash
+# Remove template README
+rm _README.md
+
+# Start with essential docs for your project size:
+# Small project: Keep PROJECT.md, ARCHITECTURE.md, DEV-GUIDE.md
+# Full project: Keep all docs and fill gradually
+```
+
+3. Fill out documentation using AI assistance:
+```bash
+# Start with these in order:
+1. PROJECT.md     # Define project scope
+2. ARCHITECTURE.md # Design system
+3. DEV-GUIDE.md   # Setup instructions
+# Continue with others as needed
+```
+
 This directory contains a comprehensive set of documentation templates for software projects. These templates are designed to be flexible and can be adapted for projects of any size.
 
 ## Document Overview
