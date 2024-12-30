@@ -6,31 +6,31 @@
 ### Primary Colors
 | Color Name | Hex Code | Sample |
 |------------|----------|---------|
-| Primary Dark | `#121212` | <div style="background-color: #121212; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
-| Primary Background | `#1E1E1E` | <div style="background-color: #1E1E1E; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
-| Primary Light | `#2D2D2D` | <div style="background-color: #2D2D2D; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
+| Primary Dark | `#121212` | <svg width="20" height="20"><rect width="20" height="20" fill="#121212" stroke="#666"/></svg> |
+| Primary Background | `#1E1E1E` | <svg width="20" height="20"><rect width="20" height="20" fill="#1E1E1E" stroke="#666"/></svg> |
+| Primary Light | `#2D2D2D` | <svg width="20" height="20"><rect width="20" height="20" fill="#2D2D2D" stroke="#666"/></svg> |
 
 ### Accent Colors
 | Color Name | Hex Code | Sample |
 |------------|----------|---------|
-| Accent Blue | `#00B4D8` | <div style="background-color: #00B4D8; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
-| Accent Green | `#00F5D4` | <div style="background-color: #00F5D4; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
-| Accent Amber | `#FFB800` | <div style="background-color: #FFB800; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
+| Accent Blue | `#00B4D8` | <svg width="20" height="20"><rect width="20" height="20" fill="#00B4D8" stroke="#666"/></svg> |
+| Accent Green | `#00F5D4` | <svg width="20" height="20"><rect width="20" height="20" fill="#00F5D4" stroke="#666"/></svg> |
+| Accent Amber | `#FFB800` | <svg width="20" height="20"><rect width="20" height="20" fill="#FFB800" stroke="#666"/></svg> |
 
 ### Text Colors
 | Color Name | Hex Code | Sample |
 |------------|----------|---------|
-| Text Primary | `#FFFFFF` | <div style="background-color: #FFFFFF; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
-| Text Secondary | `#B3B3B3` | <div style="background-color: #B3B3B3; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
-| Text Disabled | `#666666` | <div style="background-color: #666666; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
+| Text Primary | `#FFFFFF` | <svg width="20" height="20"><rect width="20" height="20" fill="#FFFFFF" stroke="#666"/></svg> |
+| Text Secondary | `#B3B3B3` | <svg width="20" height="20"><rect width="20" height="20" fill="#B3B3B3" stroke="#666"/></svg> |
+| Text Disabled | `#666666` | <svg width="20" height="20"><rect width="20" height="20" fill="#666666" stroke="#666"/></svg> |
 
 ### Status Colors
 | Color Name | Hex Code | Sample |
 |------------|----------|---------|
-| Success | `#00C853` | <div style="background-color: #00C853; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
-| Warning | `#FFD600` | <div style="background-color: #FFD600; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
-| Error | `#FF1744` | <div style="background-color: #FF1744; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
-| Info | `#00B0FF` | <div style="background-color: #00B0FF; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
+| Success | `#00C853` | <svg width="20" height="20"><rect width="20" height="20" fill="#00C853" stroke="#666"/></svg> |
+| Warning | `#FFD600` | <svg width="20" height="20"><rect width="20" height="20" fill="#FFD600" stroke="#666"/></svg> |
+| Error | `#FF1744` | <svg width="20" height="20"><rect width="20" height="20" fill="#FF1744" stroke="#666"/></svg> |
+| Info | `#00B0FF` | <svg width="20" height="20"><rect width="20" height="20" fill="#00B0FF" stroke="#666"/></svg> |
 
 ## Typography
 
