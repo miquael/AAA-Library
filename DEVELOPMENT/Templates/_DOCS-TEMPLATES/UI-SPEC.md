@@ -1,36 +1,36 @@
 # [ PROJECT NAME ] - UI Specification
-*Version: 1.0.2*
+*Version: 1.0.0*
 
 ## Color Palette
 
 ### Primary Colors
 | Color Name | Hex Code | Sample |
 |------------|----------|---------|
-| Primary Dark | `#121212` | ![](https://via.placeholder.com/15/121212/121212.png) |
-| Primary Background | `#1E1E1E` | ![](https://via.placeholder.com/15/1E1E1E/1E1E1E.png) |
-| Primary Light | `#2D2D2D` | ![](https://via.placeholder.com/15/2D2D2D/2D2D2D.png) |
+| Primary Dark | `#121212` | <div style="background-color: #121212; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
+| Primary Background | `#1E1E1E` | <div style="background-color: #1E1E1E; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
+| Primary Light | `#2D2D2D` | <div style="background-color: #2D2D2D; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
 
 ### Accent Colors
 | Color Name | Hex Code | Sample |
 |------------|----------|---------|
-| Accent Blue | `#00B4D8` | ![](https://via.placeholder.com/15/00B4D8/00B4D8.png) |
-| Accent Green | `#00F5D4` | ![](https://via.placeholder.com/15/00F5D4/00F5D4.png) |
-| Accent Amber | `#FFB800` | ![](https://via.placeholder.com/15/FFB800/FFB800.png) |
+| Accent Blue | `#00B4D8` | <div style="background-color: #00B4D8; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
+| Accent Green | `#00F5D4` | <div style="background-color: #00F5D4; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
+| Accent Amber | `#FFB800` | <div style="background-color: #FFB800; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
 
 ### Text Colors
 | Color Name | Hex Code | Sample |
 |------------|----------|---------|
-| Text Primary | `#FFFFFF` | ![](https://via.placeholder.com/15/FFFFFF/FFFFFF.png) |
-| Text Secondary | `#B3B3B3` | ![](https://via.placeholder.com/15/B3B3B3/B3B3B3.png) |
-| Text Disabled | `#666666` | ![](https://via.placeholder.com/15/666666/666666.png) |
+| Text Primary | `#FFFFFF` | <div style="background-color: #FFFFFF; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
+| Text Secondary | `#B3B3B3` | <div style="background-color: #B3B3B3; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
+| Text Disabled | `#666666` | <div style="background-color: #666666; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
 
 ### Status Colors
 | Color Name | Hex Code | Sample |
 |------------|----------|---------|
-| Success | `#00C853` | ![](https://via.placeholder.com/15/00C853/00C853.png) |
-| Warning | `#FFD600` | ![](https://via.placeholder.com/15/FFD600/FFD600.png) |
-| Error | `#FF1744` | ![](https://via.placeholder.com/15/FF1744/FF1744.png) |
-| Info | `#00B0FF` | ![](https://via.placeholder.com/15/00B0FF/00B0FF.png) |
+| Success | `#00C853` | <div style="background-color: #00C853; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
+| Warning | `#FFD600` | <div style="background-color: #FFD600; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
+| Error | `#FF1744` | <div style="background-color: #FF1744; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
+| Info | `#00B0FF` | <div style="background-color: #00B0FF; width: 20px; height: 20px; display: inline-block; border: 1px solid #666"></div> |
 
 ## Typography
 
@@ -49,12 +49,6 @@
 | 2xl | 1.5rem | Text |
 | 3xl | 1.875rem | Text |
 | 4xl | 2.25rem | Text |
-
-### Font Weights
-- Normal: 400
-- Medium: 500
-- Semibold: 600
-- Bold: 700
 
 ## Spacing
 - xs: 0.25rem (4px)
