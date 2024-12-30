@@ -1,5 +1,5 @@
 # [ PROJECT NAME ] - Architecture
-*Version: 1.0.0*
+*Version: 1.0.1*
 
 ## System Overview
 
@@ -28,11 +28,18 @@ graph TB
         Queue[(Message Queue)]
     end
 
+    subgraph AI Agent Layer
+        AI[AI Agent]
+        Eliza[Eliza Framework]
+    end
+
     Web & Mobile --> GW
     GW --> LB
     LB --> Auth & User & Resource & Notification
     Auth & User & Resource & Notification --> DB & Cache
     Notification --> Queue
+    Auth & User & Resource & Notification --> AI
+    AI --> Eliza
 ```
 
 ## Architecture Components
@@ -69,6 +76,12 @@ flowchart LR
 - Caching Layer (Redis)
 - Message Queue (RabbitMQ/Kafka)
 - File Storage (S3/MinIO)
+
+### 5. AI Agent Layer
+- Eliza Framework
+- Natural Language Processing
+- Context Management
+- Knowledge Base
 
 ## Communication Patterns
 
