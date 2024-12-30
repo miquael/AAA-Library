@@ -1,5 +1,5 @@
 # [ PROJECT NAME ]
-*Version: 1.0.0*
+*Version: 1.0.1*
 
 ## Overview
 Brief description of the project, its purpose, and key features.
@@ -33,6 +33,12 @@ graph TD
         Service3[Service 3]
     end
 
+    subgraph AILayer[AI Layer]
+        Agent[Eliza Agent]
+        NLP[NLP Engine]
+        KB[Knowledge Base]
+    end
+
     subgraph DataLayer[Data Layer]
         DB[(Database)]
         Queue[Message Queue]
@@ -44,12 +50,16 @@ graph TD
     Gateway --> Service1
     Gateway --> Service2
     Gateway --> Service3
+    Gateway --> Agent
     Service1 --> DB
     Service2 --> DB
     Service3 --> DB
     Service1 --> Queue
     Service2 --> Queue
-    Service3 --> Storage
+    Agent --> NLP
+    Agent --> KB
+    NLP --> DB
+    KB --> Storage
 ```
 
 ## Technology Stack
@@ -81,6 +91,7 @@ graph TD
 project-root/
 ├── frontend/           # Frontend application
 ├── backend/            # Backend services
+├── ai/                 # AI agent components
 ├── infrastructure/     # IaC and deployment
 ├── docs/              # Documentation
 └── scripts/           # Utility scripts

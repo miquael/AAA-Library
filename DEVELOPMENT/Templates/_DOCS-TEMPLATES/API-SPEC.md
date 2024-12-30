@@ -1,5 +1,5 @@
 # [ PROJECT NAME ] - API Specification
-*Version: 1.0.0*
+*Version: 1.0.1*
 
 ## Base URL
 ```
@@ -40,6 +40,58 @@ PUT    /resources/:id
 DELETE /resources/:id
 ```
 
+### Core API
+
+#### GET /api/v1/resource
+Get resource details
+
+#### POST /api/v1/resource
+Create new resource
+
+#### PUT /api/v1/resource/:id
+Update resource
+
+#### DELETE /api/v1/resource/:id
+Delete resource
+
+### AI Endpoints
+
+#### POST /api/v1/ai/process
+Process text with AI agent
+```json
+{
+  "text": "string",
+  "context": "object",
+  "options": {
+    "mode": "string",
+    "maxTokens": "number"
+  }
+}
+```
+
+#### GET /api/v1/ai/knowledge/:topic
+Query knowledge base
+```json
+{
+  "topic": "string",
+  "filters": "object",
+  "limit": "number"
+}
+```
+
+#### POST /api/v1/ai/train
+Train AI model with new data
+```json
+{
+  "data": "array",
+  "modelId": "string",
+  "options": {
+    "epochs": "number",
+    "batchSize": "number"
+  }
+}
+```
+
 ## Status Codes
 - 200: Success
 - 201: Created
@@ -52,9 +104,13 @@ DELETE /resources/:id
 ## Response Format
 ```json
 {
-  "success": true,
-  "data": {},
-  "error": null
+  "success": "boolean",
+  "data": "object",
+  "error": "string?",
+  "meta": {
+    "timestamp": "string",
+    "version": "string"
+  }
 }
 ```
 
