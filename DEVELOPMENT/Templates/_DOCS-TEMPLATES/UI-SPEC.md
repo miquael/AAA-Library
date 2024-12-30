@@ -6,31 +6,31 @@
 ### Primary Colors
 | Color Name | Hex Code | Sample |
 |------------|----------|---------|
-| Primary Dark | `#121212` | <svg width="20" height="20"><rect width="20" height="20" fill="#121212" stroke="#666"/></svg> |
-| Primary Background | `#1E1E1E` | <svg width="20" height="20"><rect width="20" height="20" fill="#1E1E1E" stroke="#666"/></svg> |
-| Primary Light | `#2D2D2D` | <svg width="20" height="20"><rect width="20" height="20" fill="#2D2D2D" stroke="#666"/></svg> |
+| Primary Dark | `#121212` | `#121212` |
+| Primary Background | `#1E1E1E` | `#1E1E1E` |
+| Primary Light | `#2D2D2D` | `#2D2D2D` |
 
 ### Accent Colors
 | Color Name | Hex Code | Sample |
 |------------|----------|---------|
-| Accent Blue | `#00B4D8` | <svg width="20" height="20"><rect width="20" height="20" fill="#00B4D8" stroke="#666"/></svg> |
-| Accent Green | `#00F5D4` | <svg width="20" height="20"><rect width="20" height="20" fill="#00F5D4" stroke="#666"/></svg> |
-| Accent Amber | `#FFB800` | <svg width="20" height="20"><rect width="20" height="20" fill="#FFB800" stroke="#666"/></svg> |
+| Accent Blue | `#00B4D8` | `#00B4D8` |
+| Accent Green | `#00F5D4` | `#00F5D4` |
+| Accent Amber | `#FFB800` | `#FFB800` |
 
 ### Text Colors
 | Color Name | Hex Code | Sample |
 |------------|----------|---------|
-| Text Primary | `#FFFFFF` | <svg width="20" height="20"><rect width="20" height="20" fill="#FFFFFF" stroke="#666"/></svg> |
-| Text Secondary | `#B3B3B3` | <svg width="20" height="20"><rect width="20" height="20" fill="#B3B3B3" stroke="#666"/></svg> |
-| Text Disabled | `#666666` | <svg width="20" height="20"><rect width="20" height="20" fill="#666666" stroke="#666"/></svg> |
+| Text Primary | `#FFFFFF` | `#FFFFFF` |
+| Text Secondary | `#B3B3B3` | `#B3B3B3` |
+| Text Disabled | `#666666` | `#666666` |
 
 ### Status Colors
 | Color Name | Hex Code | Sample |
 |------------|----------|---------|
-| Success | `#00C853` | <svg width="20" height="20"><rect width="20" height="20" fill="#00C853" stroke="#666"/></svg> |
-| Warning | `#FFD600` | <svg width="20" height="20"><rect width="20" height="20" fill="#FFD600" stroke="#666"/></svg> |
-| Error | `#FF1744` | <svg width="20" height="20"><rect width="20" height="20" fill="#FF1744" stroke="#666"/></svg> |
-| Info | `#00B0FF` | <svg width="20" height="20"><rect width="20" height="20" fill="#00B0FF" stroke="#666"/></svg> |
+| Success | `#00C853` | `#00C853` |
+| Warning | `#FFD600` | `#FFD600` |
+| Error | `#FF1744` | `#FF1744` |
+| Info | `#00B0FF` | `#00B0FF` |
 
 ## Typography
 
