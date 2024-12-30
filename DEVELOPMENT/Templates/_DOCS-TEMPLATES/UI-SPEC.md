@@ -4,33 +4,33 @@
 ## Color Palette
 
 ### Primary Colors
-| Color Name | Hex Code | Sample |
-|------------|----------|---------|
-| Primary Dark | `#121212` | `#121212` |
-| Primary Background | `#1E1E1E` | `#1E1E1E` |
-| Primary Light | `#2D2D2D` | `#2D2D2D` |
+| Color Name | Hex Code |
+|------------|----------|
+| Primary Dark | `#121212` |
+| Primary Background | `#1E1E1E` |
+| Primary Light | `#2D2D2D` |
 
 ### Accent Colors
-| Color Name | Hex Code | Sample |
-|------------|----------|---------|
-| Accent Blue | `#00B4D8` | `#00B4D8` |
-| Accent Green | `#00F5D4` | `#00F5D4` |
-| Accent Amber | `#FFB800` | `#FFB800` |
+| Color Name | Hex Code |
+|------------|----------|
+| Accent Blue | `#00B4D8` |
+| Accent Green | `#00F5D4` |
+| Accent Amber | `#FFB800` |
 
 ### Text Colors
-| Color Name | Hex Code | Sample |
-|------------|----------|---------|
-| Text Primary | `#FFFFFF` | `#FFFFFF` |
-| Text Secondary | `#B3B3B3` | `#B3B3B3` |
-| Text Disabled | `#666666` | `#666666` |
+| Color Name | Hex Code |
+|------------|----------|
+| Text Primary | `#FFFFFF` |
+| Text Secondary | `#B3B3B3` |
+| Text Disabled | `#666666` |
 
 ### Status Colors
-| Color Name | Hex Code | Sample |
-|------------|----------|---------|
-| Success | `#00C853` | `#00C853` |
-| Warning | `#FFD600` | `#FFD600` |
-| Error | `#FF1744` | `#FF1744` |
-| Info | `#00B0FF` | `#00B0FF` |
+| Color Name | Hex Code |
+|------------|----------|
+| Success | `#00C853` |
+| Warning | `#FFD600` |
+| Error | `#FF1744` |
+| Info | `#00B0FF` |
 
 ## Typography
 

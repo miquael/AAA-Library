@@ -1,169 +1,77 @@
 # [ PROJECT NAME ] - Architecture
-*Version: 1.0.1*
+*Version: 1.0.0*
 
-## System Overview
+## System Components
 
 ```mermaid
-graph TB
-    subgraph Client Layer
-        Web[Web Client]
-        Mobile[Mobile Client]
-    end
-
-    subgraph API Gateway
-        GW[API Gateway]
-        LB[Load Balancer]
-    end
-
-    subgraph Microservices
-        Auth[Auth Service]
-        User[User Service]
-        Resource[Resource Service]
-        Notification[Notification Service]
-    end
-
-    subgraph Data Layer
-        DB[(Main Database)]
-        Cache[(Redis Cache)]
-        Queue[(Message Queue)]
-    end
-
-    subgraph AI Agent Layer
-        AI[AI Agent]
-        Eliza[Eliza Framework]
-    end
-
-    Web & Mobile --> GW
-    GW --> LB
-    LB --> Auth & User & Resource & Notification
-    Auth & User & Resource & Notification --> DB & Cache
-    Notification --> Queue
-    Auth & User & Resource & Notification --> AI
-    AI --> Eliza
+graph TD
+    A[Client] --> B[API Gateway]
+    B --> C[Application]
+    C --> D[Services]
+    D --> E[Data]
+    D --> F[AI Agent]
 ```
 
-## Architecture Components
+## Core Layers
 
-### 1. Client Layer
-- Web Application (React/Next.js)
-- Mobile Applications
-- Third-party Integrations
+### Client
+- Web Interface
+- Mobile Apps
+- API Clients
 
-### 2. API Gateway
-- Request Routing
+### Gateway
 - Authentication
 - Rate Limiting
-- Load Balancing
-- API Documentation
+- Routing
 
-### 3. Microservices
-```mermaid
-flowchart LR
-    A[Service A] -->|Event| B[Message Queue]
-    B -->|Consume| C[Service B]
-    C -->|Update| D[(Database)]
-    D -->|Cache| E[Redis]
-```
+### Application
+- Business Logic
+- Workflows
+- Events
 
-#### Core Services
-- Authentication Service
-- User Management Service
-- Resource Service
-- Notification Service
+### Services
+- Core Services
+- Integrations
+- Message Queue
 
-### 4. Data Layer
-- Primary Database (PostgreSQL)
-- Caching Layer (Redis)
-- Message Queue (RabbitMQ/Kafka)
-- File Storage (S3/MinIO)
+### Data
+- Database
+- Cache
+- Storage
 
-### 5. AI Agent Layer
+### AI Agent
 - Eliza Framework
-- Natural Language Processing
-- Context Management
+- NLP
+- Context
 - Knowledge Base
 
-## Communication Patterns
-
-### 1. Synchronous
-- REST APIs
-- GraphQL (where applicable)
-- gRPC (internal services)
-
-### 2. Asynchronous
-- Event-driven messaging
-- Pub/Sub patterns
-- Message queues
-
-## Security Architecture
+## Data Flow
 
 ```mermaid
-flowchart TD
-    A[Client] -->|HTTPS| B[WAF]
-    B -->|Filter| C[API Gateway]
-    C -->|JWT| D[Auth Service]
-    D -->|Validate| E[Protected Resource]
+sequenceDiagram
+    Client->>Gateway: Request
+    Gateway->>App: Auth
+    App->>Service: Process
+    Service->>Data: Query
+    Service->>AI: Task
+    AI->>Service: Result
+    Service->>Client: Response
 ```
 
-### Security Measures
-- JWT Authentication
-- Role-based Access Control
-- API Key Management
-- Rate Limiting
-- Request Validation
+## Security
+- Authentication
+- Authorization
+- Encryption
+- Audit Logs
 
-## Deployment Architecture
-
-### Development
-...
-
-### Staging
-...
-
-### Production
-...
-
-## Monitoring & Logging
-
-### Metrics
-- Service Health
-- Response Times
-- Error Rates
-- Resource Usage
-
-### Logging
-- Centralized Logging
-- Log Levels
-- Audit Trails
-
-## Scaling Strategy
-
-### Horizontal Scaling
-- Service Replication
+## Scaling
 - Load Balancing
-- Database Sharding
+- Replication
+- Sharding
+- Caching
 
-### Vertical Scaling
-- Resource Allocation
-- Performance Optimization
-- Caching Strategies
-
-## Disaster Recovery
-
-### Backup Strategy
-...
-
-### Recovery Process
-...
-
-## Performance Considerations
-
-### Caching Strategy
-- Application Cache
-- Database Cache
-- CDN Integration
-
-### Optimization
-- Query Optimization
-- Asset Optimization
-- Network Optimization
+## Monitoring
+- Health Metrics
+- Error Tracking
+- Analytics
+- Alerts
