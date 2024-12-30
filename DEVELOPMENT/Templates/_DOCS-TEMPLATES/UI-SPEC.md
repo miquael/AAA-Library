@@ -51,33 +51,159 @@
 | 4xl | 2.25rem | Text |
 
 ## Spacing
-- xs: 0.25rem (4px)
-- sm: 0.5rem (8px)
-- md: 1rem (16px)
-- lg: 1.5rem (24px)
-- xl: 2rem (32px)
-- 2xl: 3rem (48px)
 
-## Breakpoints
-- sm: 640px
-- md: 768px
-- lg: 1024px
-- xl: 1280px
-- 2xl: 1536px
+### Margin & Padding
+| Name | Size | Use Case |
+|------|------|----------|
+| xs | 0.25rem | Tight spacing |
+| sm | 0.5rem | Element spacing |
+| md | 1rem | Component spacing |
+| lg | 1.5rem | Section spacing |
+| xl | 2rem | Layout spacing |
 
-## Component Sizes
+## Border Radius
+| Name | Size | Use Case |
+|------|------|----------|
+| sm | 0.25rem | Buttons, cards |
+| md | 0.5rem | Modals, panels |
+| lg | 1rem | Large cards |
+| full | 9999px | Pills, badges |
 
-### Buttons
-- sm: 2rem (32px)
-- md: 2.5rem (40px)
-- lg: 3rem (48px)
+## Shadows
+| Name | Value | Use Case |
+|------|-------|----------|
+| sm | `0 1px 2px rgba(0,0,0,0.1)` | Subtle elevation |
+| md | `0 4px 6px rgba(0,0,0,0.1)` | Cards, buttons |
+| lg | `0 10px 15px rgba(0,0,0,0.1)` | Modals, dropdowns |
 
-### Inputs
-- sm: 2rem (32px)
-- md: 2.5rem (40px)
-- lg: 3rem (48px)
+## Component Library
 
-### Cards
-- Padding: 1rem - 2rem
-- Border Radius: 0.5rem
-- Shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+### Base Components
+- **Button**
+  - Primary, Secondary, Ghost variants
+  - Sizes: sm, md, lg
+  - States: hover, active, disabled
+  
+- **Input**
+  - Text, Number, Password types
+  - With/without labels
+  - Error states
+  - Helper text
+
+- **Form**
+  - Layout patterns
+  - Validation
+  - Error handling
+  - Submission states
+
+- **Card**
+  - Basic, Interactive variants
+  - Header/Body/Footer sections
+  - Loading states
+
+- **Modal**
+  - Sizes: sm, md, lg, full
+  - With/without overlay
+  - Animation patterns
+
+### Layout Components
+- **Container**
+  - Max widths
+  - Responsive padding
+  - Nested layouts
+
+- **Grid**
+  - Column configurations
+  - Responsive breakpoints
+  - Gap spacing
+
+- **Stack**
+  - Vertical/Horizontal
+  - Spacing variants
+  - Alignment options
+
+- **Flex**
+  - Distribution patterns
+  - Alignment options
+  - Wrapping behavior
+
+### Navigation Components
+- **Navbar**
+  - Fixed/Sticky variants
+  - Responsive behavior
+  - Mobile menu
+
+- **Sidebar**
+  - Collapsible
+  - With/without overlay
+  - Nested navigation
+
+- **Breadcrumbs**
+  - Separator options
+  - Truncation
+  - Active state
+
+- **Tabs**
+  - Horizontal/Vertical
+  - With/without icons
+  - Animated indicator
+
+### Data Display
+- **Table**
+  - Sortable columns
+  - Pagination
+  - Selection
+  - Loading states
+
+- **List**
+  - Ordered/Unordered
+  - Interactive items
+  - Virtual scrolling
+
+- **Chart**
+  - Bar, Line, Pie variants
+  - Tooltips
+  - Legend
+  - Responsive resize
+
+### Feature Components
+- **Auth Forms**
+  - Login
+  - Registration
+  - Password Reset
+  - Profile Edit
+
+- **Theme Switcher**
+  - Mode Toggle (Light/Dark)
+  - Color Scheme Selection
+  - Persistence
+
+### State Management
+- **Store Structure**
+  - Actions
+  - Reducers
+  - Selectors
+  - Middleware
+
+- **Context Providers**
+  - Theme
+  - Auth
+  - Preferences
+  - Notifications
+
+### Utils
+- **Animations**
+  - Transitions
+  - Loading spinners
+  - Page transitions
+  
+- **Hooks**
+  - useTheme
+  - useAuth
+  - useForm
+  - useModal
+
+- **Helpers**
+  - className utilities
+  - Style generators
+  - Type guards
