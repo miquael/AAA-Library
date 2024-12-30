@@ -1,4 +1,4 @@
-# [ PROJECT NAME ] - Testing Guide
+# [ PROJECT NAME ] - Testing
 *Version: 1.0.0*
 
 ## Test Types

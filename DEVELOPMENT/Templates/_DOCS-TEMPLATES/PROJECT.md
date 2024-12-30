@@ -1,5 +1,5 @@
 # [ PROJECT NAME ]
-*Version: 1.0.1*
+*Version: 1.0.0*
 
 ## Overview
 Brief description of the project, its purpose, and key features.
